@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            transition: opacity 0.5s ease-in-out;
+        }
+        h2 {
+            color: #ff4d6d;
+        }
+        .btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .yes {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        .yes:hover {
+            background-color: #e63950;
+        }
+        .no {
+            background-color: gray;
+            color: white;
+            position: absolute;
+        }
+        .hidden {
+            display: none;
+        }
+        .message {
+            font-size: 24px;
+            color: #e63950;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        .img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            animation: float 3s infinite alternate ease-in-out;
+        }
+        .img-container img {
+            width: 250px;
+            border-radius: 10px;
+            background: white;
+            padding: 10px;
+            animation: moveImage 2s infinite alternate ease-in-out;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: floatUp 3s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-100px) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(-200px) scale(1); opacity: 0; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        @keyframes moveImage {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="valentine-box">
+        <h2>Will you be my Valentine? ❤️</h2>
+        <button class="btn yes" onclick="askQuestions()">Yes</button>
+        <button class="btn no" onmouseover="moveButton()">No</button>
+    </div>
+    
+    <div id="message" class="hidden message">
+        <h3>See you on Friday, my love! 💖</h3>
+        <p>You've stolen my heart, and I never want it back. Happy Valentine's Day to the love of my life.</p>
+        <div class="img-container">
+            <img src="https://i.pinimg.com/736x/8d/6e/b4/8d6eb405b2b49e89b363fbc89813d255.jpg" alt="(G)I-DLE Soyeon">
+        </div>
+    </div>
+    
+    <script>
+        let clickCount = 0;
+        function askQuestions() {
+            let questions = ["Are you sure?", "You don’t have a choice!", "I’m excited!!!"];
+            if (clickCount < 3) {
+                alert(questions[clickCount]);
+                clickCount++;
+            } else {
+                showMessage();
+            }
+        }
+
+        function moveButton() {
+            let button = document.querySelector('.no');
+            let x = Math.random() * (window.innerWidth - 150);
+            let y = Math.random() * (window.innerHeight - 50);
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+        
+        function showMessage() {
+            document.getElementById('valentine-box').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('valentine-box').style.display = 'none';
+                document.getElementById('message').classList.remove('hidden');
+                generateHearts();
+            }, 500);
+        }
+
+        function generateHearts() {
+            setInterval(() => {
+                let heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart');
+                document.body.appendChild(heart);
+                
+                let x = Math.random() * window.innerWidth;
+                let duration = Math.random() * 3 + 2;
+                let size = Math.random() * 20 + 10;
+                
+                heart.style.left = `${x}px`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000);
+            }, 200);
+        }
+    </script>
+</body>
+</html>
